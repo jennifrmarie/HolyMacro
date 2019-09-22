@@ -3,6 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <script src="https://kit.fontawesome.com/fcac6081ac.js" crossorigin="anonymous"></script>
     <meta http-equiv="X-UA-Compatible" content="ie=edge">
     <title>Holy Macro!</title>
     <link rel="stylesheet" href="style.css">
@@ -10,7 +11,7 @@
 <body>
     <div class="container">
         <h1>Holy Macro!</h1>
-
+        <span>Tell me what you need and i'll find recipes to help you hit your macros</span>
         <form id="js-form">
             <label for="search-term">Min calories</label><br>
             <input type="text" name="search-term" id="js-min-cals" value="0" required><br>
@@ -33,13 +34,13 @@
 
             <input type="submit" class="submit" value="Go!">
         </form>
-
+    </div>
         <p id="js-error-message" class="error-message"></p>
         <section id="results"> 
         </section> 
-        <section id="recipe-info">
+        <section id="bottom">
         </section>
-    </div>
+    
     <script src="https://code.jquery.com/jquery-3.3.1.js" integrity="sha256-2Kok7MbOyxpgUVvAk/HJ2jigOSYS2auK4Pfzbm7uH60=" crossorigin="anonymous"></script>
     <script src="index.js"></script>
 </body>

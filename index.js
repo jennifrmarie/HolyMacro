@@ -2,7 +2,7 @@ const apiKey = '39f67f61e0914d4282aa1b3f01123002';
 const searchUrl = `https://api.spoonacular.com/recipes/findByNutrients?apiKey=${apiKey}`
 
 function getData() {
-    console.log('a')
+    $('.back').hide();
     const minCals = $('#js-min-cals').val();
     const maxCals = $('#js-max-cals').val();
     const minProt = $('#js-min-prot').val();
@@ -12,8 +12,8 @@ function getData() {
     const minFats = $('#js-min-fat').val();
     const maxFats = $('#js-max-fat').val();
     const maxResults = $('#js-max-results').val();
-    let urlString = `&minCalories=${minCals}&maxCalories=${maxCals}&minProtein=${minProt}&maxProtein=${maxProt}&minCarbs=${minCarbz}&maxCarbs=${maxCarbz}&minFat=${minFats}&maxFat=${maxFats}&number=${maxResults}`
-    //   const urlJoin = urlString.join('&')
+    let urlString = `&minCalories=${minCals}&maxCalories=${maxCals}&minProtein=${minProt}&maxProtein=${maxProt}
+    &minCarbs=${minCarbz}&maxCarbs=${maxCarbz}&minFat=${minFats}&maxFat=${maxFats}&number=${maxResults}`;
     const url = searchUrl + urlString;
     console.log(minCals)
     console.log(url)
@@ -26,43 +26,65 @@ function getData() {
         })
         .then((responseJson) => {
             console.log(responseJson[1])
+            $('#results').html(`<ul class="macroNutrients"></ul>`);
             for (let i = 0; i < responseJson.length; i++) {
                 console.log(responseJson[i].image)
-                $('#results').append(`<ul class="macroNutrients">
-                <li class="items">
+                $('.macroNutrients').append(`<li data-recipe-id="${responseJson[i].id}" class="items">
                 <h3>${responseJson[i].title}</h3>
                 <img src="${responseJson[i].image}">
                 <span>Calories:${responseJson[i].calories}</span>
                 <span>Protein:${responseJson[i].protein}</span>
                 <span>Carbs:${responseJson[i].carbs}</span>
                 <span>Fat:${responseJson[i].fat}</span>
-                <button data-recipe-id="${responseJson[i].id}"class="more">Get URL</button>
-                </li>
-                </ul>`);
-                // console.log(responseJson[i].id)
+                <button target="blank" class="more">See More Info</button>
+                </li>`);
+                
             }
         })
         .catch(err => {
             $('#js-error-message').text(`Something went wrong`);
         });
+        goBack();
 }
+
 
 function watchMore() {
     $('#results').on('click', '.more', event => {
-        // $(event.currentTarget);
-        let $button = (event.currentTarget)
-        // let recipeIde = $('button').data("recipe-id")
-        let recipeIde = $($button).data('recipe-id');
+        let $button = $(event.currentTarget)
+        let $li = $button.closest('li');
+        let recipeIde = $li.data('recipe-id');
         console.log(recipeIde)
         fetch(`https://api.spoonacular.com/recipes/${recipeIde}/information?apiKey=${apiKey}`)
         .then(response => {
             return response.json();
         })
         .then((responseJson) => {
-            console.log(responseJson)
-            let url = `${responseJson.sourceUrl}`
-            console.log("url")
-            window.location = url;
+            console.log(responseJson);
+            console.log(responseJson.vegetarian)
+            if(responseJson.vegetarian === true) {
+                $li.append(`<div><i class="fas fa-check"></i>Vegetarian</div>`)
+            } else {
+                $li.append(`<div><i class="fas fa-times"></i>Vegetarian</div>`)
+            };
+            if(responseJson.vegan === true) {
+                $li.append(`<div><i class="fas fa-check"></i>Vegan</div>`)
+            } else {
+                $li.append(`<div><i class="fas fa-times"></i>Vegan</div>`)
+            };
+            if(responseJson.dairyFree === true) {
+                $li.append(`<div><i class="fas fa-check"></i>Dairy Free</div>`)
+            } else {
+                $li.append(`<div><i class="fas fa-times"></i>Dairy Free</div>`)
+            };
+            if(responseJson.glutenFree === true) {
+                $li.append(`<div><i class="fas fa-check"></i>Gluten Free</div>`)
+            } else {
+                $li.append(`<span><i class="fas fa-times"></i>Gluten Free</div>`)
+            };
+            
+            let targetUrl = responseJson.sourceUrl
+            $li.append(`<div><a href="${responseJson.sourceUrl} target="blank">Go to URL</a></div>`)
+              
             
         })
     
@@ -77,9 +99,22 @@ function onPageReady() {
 function watchForm() {
     $('#js-form').submit(event => {
         event.preventDefault();
+        event.stopPropagation();
         $('#results').empty();
-        $('#js-form').hide();
+        $('#results').show()
+        $('.container').hide();
         getData();
+        $('#bottom').html(`<button class="back">Go Back</button>`)
+    }) 
+}
+function goBack() {
+    $('#bottom').on ('click', '.back', event => {
+        console.log('back')
+        $('.container').show();
+        $('#results').hide();
+        getData();
+        watchForm();
     })
 }
+
 $(onPageReady);
