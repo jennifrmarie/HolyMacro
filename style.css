@@ -50,7 +50,7 @@ h1 {
     font-family: 'Barlow Condensed', sans-serif;
     align-self: center;
     width: 60%;
-    min-width: 300px;
+    min-width: 400px;
     max-width: 400px;
     line-height: 35px;
     background-color: white;
@@ -78,7 +78,7 @@ input {
     margin-top: 8px;
     margin-right: 25px;
     font-size: 15px;
-    width: 40px;
+    width: 50px;
     border: 1px solid black;
     float: right;
     text-align: center;
@@ -100,7 +100,7 @@ input {
 }
 .back {
     align-self: center;
-    width: 100px;
+    min-width: 150px;
     border: 3px solid rgb(36, 5, 29);
     margin-top: 20px;
     margin-bottom: 50px;
@@ -117,7 +117,7 @@ input {
 }
 .more {
     align-self: center;
-    width: 150px;
+    min-width: 200px;
     margin-top: 20px;
     margin-bottom: 20px;
     text-align: center;
@@ -188,7 +188,7 @@ h3 {
     display: flex;
     align-self: center;
     flex-direction: column;
-    max-width: 400px;
+    max-width: 70%;
     margin-bottom: 15px;
 } 
 
