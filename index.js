@@ -15,8 +15,6 @@ function getData() {
     let urlString = `&minCalories=${minCals}&maxCalories=${maxCals}&minProtein=${minProt}&maxProtein=${maxProt}
     &minCarbs=${minCarbz}&maxCarbs=${maxCarbz}&minFat=${minFats}&maxFat=${maxFats}&number=${maxResults}`;
     const url = searchUrl + urlString;
-    console.log(minCals)
-    console.log(url)
     fetch(url)
         .then(response => {
             if (response.ok) {
@@ -26,12 +24,12 @@ function getData() {
         })
         .then((responseJson) => {
             console.log(responseJson[1])
-            $('#results').html(`<ul class="macroNutrients"></ul>`);
+            $('#results').html(`<h1>Holy Macro!</h1><ul class="macroNutrients"></ul>`);
             for (let i = 0; i < responseJson.length; i++) {
                 console.log(responseJson[i].image)
                 $('.macroNutrients').append(`<li data-recipe-id="${responseJson[i].id}" class="items">
                 <h3>${responseJson[i].title}</h3>
-                <img src="${responseJson[i].image}">
+                <img src="${responseJson[i].image}" class="recipe-pic" alt="picture of recipe">
                 <span>Calories:${responseJson[i].calories}</span>
                 <span>Protein:${responseJson[i].protein}</span>
                 <span>Carbs:${responseJson[i].carbs}</span>
@@ -51,6 +49,7 @@ function getData() {
 function watchMore() {
     $('#results').on('click', '.more', event => {
         let $button = $(event.currentTarget)
+        $button.hide();
         let $li = $button.closest('li');
         let recipeIde = $li.data('recipe-id');
         console.log(recipeIde)
@@ -62,7 +61,7 @@ function watchMore() {
             console.log(responseJson);
             console.log(responseJson.vegetarian)
             if(responseJson.vegetarian === true) {
-                $li.append(`<div><i class="fas fa-check"></i>Vegetarian</div>`)
+                $li.append(`<div class><i class="fas fa-check"></i>Vegetarian</div>`)
             } else {
                 $li.append(`<div><i class="fas fa-times"></i>Vegetarian</div>`)
             };
@@ -79,12 +78,13 @@ function watchMore() {
             if(responseJson.glutenFree === true) {
                 $li.append(`<div><i class="fas fa-check"></i>Gluten Free</div>`)
             } else {
-                $li.append(`<span><i class="fas fa-times"></i>Gluten Free</div>`)
+                $li.append(`<div><i class="fas fa-times"></i>Gluten Free</div>`)
             };
             
+            
             let targetUrl = responseJson.sourceUrl
-            $li.append(`<div><a href="${responseJson.sourceUrl} target="blank">Go to URL</a></div>`)
-              
+            $li.append(`<div class='sourcelink'><a href="${responseJson.sourceUrl}" target="_blank" >Go to URL</a></div>`)
+            console.log(responseJson.sourceUrl);
             
         })
     
@@ -109,7 +109,6 @@ function watchForm() {
 }
 function goBack() {
     $('#bottom').on ('click', '.back', event => {
-        console.log('back')
         $('.container').show();
         $('#results').hide();
         getData();
