@@ -8,13 +8,10 @@ body {
         rgba(0, 0, 0, 0.74)
       ),url(https://images.pexels.com/photos/264537/pexels-photo-264537.jpeg?auto=compress&cs=tinysrgb&dpr=2&h=650&w=940);
     text-align: center;
-    /* background-repeat: no-repeat;
-    background-size: cover; */
 }
 .container {
     display: flex;
     flex-direction: column;
-    /* align-content: space-evenly; */
     justify-content: center;
 }
 h1 {
